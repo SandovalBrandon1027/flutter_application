@@ -1,88 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'providers/api_provider.dart';
-import 'models/cat.dart';
+import 'dart:math';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => CatProvider(),
-      child: MaterialApp(
-        title: 'HTTP Cat Viewer',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: CatImageScreen(),
+    return MaterialApp(
+      title: 'Consumiendo el API Dogs',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: DogImagePage(),
     );
   }
 }
 
-class CatImageScreen extends StatefulWidget {
+class DogImagePage extends StatefulWidget {
   @override
-  _CatImageScreenState createState() => _CatImageScreenState();
+  _DogImagePageState createState() => _DogImagePageState();
 }
 
-class _CatImageScreenState extends State<CatImageScreen> {
-  final TextEditingController _statusCodeController = TextEditingController();
+class _DogImagePageState extends State<DogImagePage> {
+  final List<int> statusCodes = [100, 200, 300, 400, 404, 500, 502, 503, 504];
+  String imageUrl = '';
 
   @override
-  void dispose() {
-    _statusCodeController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    fetchRandomDogImage();
   }
 
-  void _fetchCatImage(int statusCode) {
-    Provider.of<CatProvider>(context, listen: false).fetchCat(statusCode);
+  void fetchRandomDogImage() {
+    final random = Random();
+    final statusCode = statusCodes[random.nextInt(statusCodes.length)];
+    setState(() {
+      imageUrl = 'https://http.dog/$statusCode.jpg';
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final catProvider = Provider.of<CatProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('HTTP Cat Viewer'),
+        title: Text('API DOGS'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Enter HTTP Status Code:'),
-            SizedBox(height: 10),
-            TextField(
-              controller: _statusCodeController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter status code',
-              ),
-              textAlign: TextAlign.center,
-              onChanged: (value) {
-                // Optional: Handle input validation or formatting
-              },
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                int statusCode = int.tryParse(_statusCodeController.text) ?? 200;
-                _fetchCatImage(statusCode);
-              },
-              child: Text('Show Cat Image'),
-            ),
+            imageUrl.isNotEmpty
+                ? Image.network(
+                    imageUrl,
+                    width: 400, // Ajusta el ancho de la imagen
+                    height: 400, // Ajusta la altura de la imagen
+                    fit: BoxFit.cover, // Ajusta la imagen dentro del cuadro
+                  )
+                : CircularProgressIndicator(),
             SizedBox(height: 20),
-            if (catProvider.isLoading)
-              CircularProgressIndicator()
-            else if (catProvider.cat != null)
-              Image.network(
-                catProvider.cat!.imageUrl,
-                height: 300,
-              ),
+            ElevatedButton(
+              onPressed: fetchRandomDogImage,
+              child: Text('Cargar otra imagen'),
+            ),
           ],
         ),
       ),
