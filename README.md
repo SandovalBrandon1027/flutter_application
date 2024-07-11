@@ -1,16 +1,9 @@
-# flutter_application_pokeapi
+<h1>Imagenes de la API dogs </h1>
 
-A new Flutter project.
 
-## Getting Started
+![image](https://github.com/SandovalBrandon1027/flutter_application_pokeapi/assets/117743657/3291e0df-3722-4975-9c02-f14bc905af37)
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+![image](https://github.com/SandovalBrandon1027/flutter_application_pokeapi/assets/117743657/ec21c9b4-ca4d-46cf-84c0-75ab45e46acc)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![image](https://github.com/SandovalBrandon1027/flutter_application_pokeapi/assets/117743657/24dc8a5c-f583-41bc-8881-8392cf946f5e)
